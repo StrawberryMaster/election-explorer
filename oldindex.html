@@ -32,7 +32,7 @@
     }
   </style>
 
-  <script src="https://js.arcgis.com/4.27/"></script>
+  <script src="https://js.arcgis.com/4.30/"></script>
 
   <script>
     require([
@@ -606,7 +606,32 @@
       const item = event.item;
 
       if (item.layer.type === "group") {
-        item.open = true;
+        // Use 'expanded' property for Calcite Components 3.2.1+
+        item.expanded = true;
+        
+        // Also ensure the item is open in different ways for better compatibility
+        if (item.open !== undefined) {
+          item.open = true;
+        }
+        
+        // Force the expansion with a slight delay to ensure DOM is ready
+        setTimeout(() => {
+          item.expanded = true;
+          if (item.open !== undefined) {
+            item.open = true;
+          }
+          // Trigger view update if available
+          if (item.view && item.view.refresh) {
+            item.view.refresh();
+          }
+        }, 150);
+        
+        // Additional fallback - try to manually trigger expansion
+        setTimeout(() => {
+          if (item.expanded !== true) {
+            item.expanded = true;
+          }
+        }, 300);
       }
 
     item.layer.watch("visible", function(newValue, oldValue, property, object) {
