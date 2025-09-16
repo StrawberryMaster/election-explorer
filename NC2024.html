@@ -1005,7 +1005,19 @@
            function defineActions(event) {
              const item = event.item;
              if (item.layer.type === "group") {
+               // Try multiple approaches for compatibility with different versions
                item.open = true;
+               // Also try setting expanded property if it exists
+               if (typeof item.expanded !== 'undefined') {
+                 item.expanded = true;
+               }
+               // Alternative approach - set it after a brief delay
+               setTimeout(() => {
+                 item.open = true;
+                 if (typeof item.expanded !== 'undefined') {
+                   item.expanded = true;
+                 }
+               }, 100);
              }
            }
 		  
