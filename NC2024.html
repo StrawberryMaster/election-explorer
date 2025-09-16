@@ -4,9 +4,9 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
     <title>North Carolina 2024 Results</title>
-    <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/3.2.1/calcite.css"/>
+    <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/2.15.0/calcite.css"/>
     <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css"/>
-    <script type="module" src="https://js.arcgis.com/calcite-components/3.2.1/calcite.esm.js"></script>
+    <script type="module" src="https://js.arcgis.com/calcite-components/2.15.0/calcite.esm.js"></script>
     <style>
         html,
         body,
@@ -1005,32 +1005,7 @@
            function defineActions(event) {
              const item = event.item;
              if (item.layer.type === "group") {
-               // Use 'expanded' property for Calcite Components 3.2.1+
-               item.expanded = true;
-               
-               // Also ensure the item is open in different ways for better compatibility
-               if (item.open !== undefined) {
-                 item.open = true;
-               }
-               
-               // Force the expansion with a slight delay to ensure DOM is ready
-               setTimeout(() => {
-                 item.expanded = true;
-                 if (item.open !== undefined) {
-                   item.open = true;
-                 }
-                 // Trigger view update if available
-                 if (item.view && item.view.refresh) {
-                   item.view.refresh();
-                 }
-               }, 150);
-               
-               // Additional fallback - try to manually trigger expansion
-               setTimeout(() => {
-                 if (item.expanded !== true) {
-                   item.expanded = true;
-                 }
-               }, 300);
+               item.open = true;
              }
            }
 		  
