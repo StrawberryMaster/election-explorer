@@ -606,12 +606,32 @@
       const item = event.item;
 
       if (item.layer.type === "group") {
-        // Use 'expanded' property as primary approach (replaces deprecated 'open')
+        // Use 'expanded' property for Calcite Components 3.2.1+
         item.expanded = true;
-        // Set it after a brief delay to ensure it takes effect
+        
+        // Also ensure the item is open in different ways for better compatibility
+        if (item.open !== undefined) {
+          item.open = true;
+        }
+        
+        // Force the expansion with a slight delay to ensure DOM is ready
         setTimeout(() => {
           item.expanded = true;
-        }, 100);
+          if (item.open !== undefined) {
+            item.open = true;
+          }
+          // Trigger view update if available
+          if (item.view && item.view.refresh) {
+            item.view.refresh();
+          }
+        }, 150);
+        
+        // Additional fallback - try to manually trigger expansion
+        setTimeout(() => {
+          if (item.expanded !== true) {
+            item.expanded = true;
+          }
+        }, 300);
       }
 
     item.layer.watch("visible", function(newValue, oldValue, property, object) {
