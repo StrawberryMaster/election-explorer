@@ -797,18 +797,11 @@
       const item = event.item;
 
       if (item.layer.type === "group") {
-        // Try multiple approaches for compatibility with different versions
-        item.open = true;
-        // Also try setting expanded property if it exists
-        if (typeof item.expanded !== 'undefined') {
-          item.expanded = true;
-        }
-        // Alternative approach - set it after a brief delay
+        // Use 'expanded' property as primary approach (replaces deprecated 'open')
+        item.expanded = true;
+        // Set it after a brief delay to ensure it takes effect
         setTimeout(() => {
-          item.open = true;
-          if (typeof item.expanded !== 'undefined') {
-            item.expanded = true;
-          }
+          item.expanded = true;
         }, 100);
       }
 
